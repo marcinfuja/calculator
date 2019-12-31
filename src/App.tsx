@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Calculator from './components/Calculator/Calculator';
+import Home from './components/Home/Home';
+import Report from './components/Report/Report';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    need: 0,
+    maturity: 0,
+  }
+
+  saveOverallScore = (need: number, maturity: number) => {
+    this.setState({
+      need: need,
+      maturity: maturity,
+    });
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <Router>
+          <Switch>
+            <Route path="/report" >
+              <Report need={this.state.need} maturity={this.state.maturity} />
+            </Route>
+            <Route path="/calculator">
+              <Calculator handleCalculation={this.saveOverallScore}/>
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    )
+  }
 }
 
 export default App;
